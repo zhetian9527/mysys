@@ -1,46 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>xx后台管理系统</title>
-  <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
-  <link rel="stylesheet" href="./css/reset.css">
-  <link rel="stylesheet" href="./css/common.css">
-  <link rel="stylesheet" href="./css/index.css">
-</head>
-<body>
-  <div class="container">
-
-    <div class="lv-head">
-      <div class="left">
-        <a href="/" class="logo">xx后台管理系统</a>
-      </div>
-      <div class="right">
-        <p>欢迎您 - xxx (管理员)</p>
-        <button class="btn btn-primary">退出</button>
-      </div>
-    </div>
-
-    <div class="lv-main">
-      <ul class="lv-menu">
-        <li><a href="/users">用户管理</a></li>
-        <li><a href="/brand.html">品牌管理</a></li>
-        <li><a href="/phone.html">手机管理</a></li>
-      </ul>
-
-
-      <div class="body">
-        <iframe src="./users.html"></iframe>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>xx后台管理系统</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="lv-head">
+        <div class="left"><a href="/" class="logo">xx后台管理系统</a></div>
+        <div class="right">
+          <p id="admin">欢迎您 - xxx (管理员)</p>
+          <button class="btn btn-primary" id="btn">退出</button>
+        </div>
       </div>
 
-    </div>
+      <div class="lv-main">
+        <ul class="lv-menu">
+          <li class="yhgl"><a id="yhgl">用户管理</a></li>
+          <li><a id="ppgl">品牌管理</a></li>
+          <li><a id="sjgl">手机管理</a></li>
+        </ul>
 
-    <div class="lv-foot">
-      我是底部
-    </div>
+        <div class="body"><iframe src="./users.html" id="iframe"></iframe></div>
+      </div>
 
-  </div>
-</body>
+      <div class="lv-foot"></div>
+    </div>
+  </body>
 </html>
+<script src="js/jquery.js"></script>
+<script>
+  $(function() {
+    var btn = document.getElementById("btn");
+    var admin = document.getElementById("admin");
+    var nickname = localStorage.getItem("nickname");
+    var lj = $("#iframe")[0];
+    $("#yhgl").click(function() {
+      lj.src = "users.html";
+    });
+    $("#ppgl").click(function() {
+      lj.src = "brand.html";
+    });
+    $("#sjgl").click(function() {
+      lj.src = "phone.html";
+    });
+
+    if (localStorage.getItem("isAdmin") == "true") {
+      admin.innerHTML = "欢迎您 - " + nickname + "(管理员)";
+    } else {
+      admin.innerHTML = "欢迎您 - " + nickname;
+      $(".yhgl").css("display", "none");
+      $("#iframe")[0].src = "brand.html";
+    }
+
+    if (localStorage.getItem("nickname") == undefined) {
+      location.href = "login.html";
+    }
+    window.onbeforeunload = function(e) {
+      var e = window.event || e;
+      localStorage.clear();
+    };
+    btn.onclick = function() {
+      localStorage.clear();
+      location.href = "login.html";
+    };
+  });
+</script>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>手机管理</title>
+    <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/reset.css" />
+    <link rel="stylesheet" href="./css/common.css" />
+
+    <style>
+      body {
+        background: #ccc;
+      }
+
+      .daohan {
+        width: 710px;
+        height: 50px;
+        border: 1px solid #dddddd;
+        box-sizing: border-box;
+        padding: 12px;
+      }
+
+      .table {
+        margin-top: 20px;
+        text-align: center;
+      }
+      th {
+        text-align: center;
+      }
+      #tbody tr {
+      }
+      #tbody td {
+        text-align: center;
+        vertical-align: middle;
+      }
+      #tbody td a {
+        margin-left: 20px;
+      }
+      .bg {
+      }
+      button {
+        border: 1px solid #ddd;
+      }
+      #sjadd {
+        width: 400px;
+        height: 200px;
+        border: 1px solid black;
+        z-index: -99;
+        background: white;
+        position: absolute;
+        top: 20%;
+        left: 25%;
+        opacity: 0;
+        text-align: center;
+      }
+      #scsj {
+        display: inline-block;
+        text-align: right;
+      }
+      #scsj span {
+        text-align: right;
+      }
+
+      img {
+        width: 168px;
+        height: 168px;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <nav class="daohan"><button id="add">新增手机</button></nav>
+
+      <div class="bg">
+        <table class="table table-striped table-bordered table-hover">
+          <thead>
+            <tr>
+              <th>序号</th>
+              <th>图片</th>
+              <th>手机名称</th>
+              <th>所属品牌</th>
+              <th>官方指导价</th>
+              <th>二手回收价</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+        <nav style="text-align: right">
+          <ul class="pagination page">
+            <li>
+              <a href="" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div id="sjadd">
+      <h2>新增手机</h2>
+      <div id="scsj">
+        名称：<input type="text" name="name" /><br />
+        品牌<input type="text" name="brand" id="" /><br />
+        官方指导价：<input type="text" name="price" id="" /><br />
+        二手回收价：<input type="text" name="ershouprice" id="" /><br />
+        <input type="file" name="file" id="" />
+      </div>
+      <br />
+      <button>上传</button>
+    </div>
+  </body>
+</html>
+<script src="./js/jquery.js"></script>
+<script>
+  $("#add").click(function() {
+    $("#sjadd")[0].style.zIndex = 1;
+    $("#sjadd")[0].style.opacity = 1;
+  });
+  $(".bg").click(function(e) {
+    $("#sjadd")[0].style.zIndex = -99;
+    $("#sjadd")[0].style.opacity = 0;
+  });
+  $(function() {
+    getbrand();
+  });
+
+  function getbrand(page, pageSize) {
+    if (location.search) {
+      page1 = location.search
+        .split("?")[1]
+        .split("&")[0]
+        .split("=")[1];
+    } else {
+      page1 = 1;
+    }
+    page = page || page1;
+    pageSize = pageSize || 5;
+
+    $.get(
+      "http://127.0.0.1:3000/api/phone/list",
+      {
+        page: page,
+        pageSize: pageSize
+      },
+      function(res) {
+        console.log(res);
+        if (res.code == 0) {
+          var list = res.data.list;
+          var str = "";
+          for (var i = 0; i < list.length; i++) {
+            str +=
+              "<tr><td>" +
+              (i + 1) +
+              "</td><td><img src='" +
+              list[i].src +
+              "'></td><td>" +
+              list[i].name +
+              "</td><td>" +
+              list[i].brand +
+              "</td><td>" +
+              list[i].price +
+              "</td><td>" +
+              list[i].Secondhandprice +
+              "</td><td><a class='update'>修改</a><a class='remove'>删除</a></td></tr>";
+          }
+          $("#tbody").append(str);
+          var str1 = "";
+          for (var i = 0; i < res.data.totalPage; i++) {
+            str1 +=
+              "<li><a  class='page1' href = 'phone.html?page=" +
+              (i + 1) +
+              "&pageSize=5' >" +
+              (i + 1) +
+              "</a></li>";
+          }
+
+          $(".page li:eq(0)").after(str1);
+          $(".page1").click(function() {
+            var page = location.search
+              .split("?")[1]
+              .split("&")[0]
+              .split("=")[1];
+            getList(page);
+          });
+          $(".remove").click(function() {
+            var username = $(this)
+              .parent()
+              .parent()
+              .children()
+              .eq(2)
+              .text();
+
+            console.log(username);
+
+            $.post(
+              "http://127.0.0.1:3000/api/phone/remove",
+              {
+                username: username
+              },
+              function(res) {
+                if (res.code == 0) {
+                  window.location.reload();
+                }
+              }
+            );
+          });
+        }
+      }
+    );
+  }
+</script>

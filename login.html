@@ -1,24 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Document</title>
-</head>
-<body>
-  
-  <div>
-    <input type="text" placeholder="name">
+  <head>
+    <meta charset="UTF-8" />
+    <title>登录</title>
+    <style>
+      .login {
+        text-align: center;
 
-    <input type="password" placeholder="pwd">
+        width: 500px;
+        height: 500px;
+        margin: 200px auto;
+      }
+      form {
+        text-align: right;
+        width: 250px;
+        margin: 0 auto;
+      }
 
-    <button id="btn">按钮</button>
-  </div>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="./js/login.js"></script>
-  <script>
-    // ajax 的核心对象是什么：   XMLHttpRequest
+      #btn {
+        float: left;
+        margin-left: 85px;
+        margin-top: 10px;
+      }
+      #btn1 {
+        margin-right: 5px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
 
-  </script>
-</body>
+  <body>
+    <div class="login">
+      <h2>xx后台管理系统</h2>
+      <h3>登录</h3>
+      <form>
+        <label for=""> 用户名：<input type="text" placeholder="name"/></label>
+
+        <br />
+
+        <label for=""
+          >密 &nbsp;&nbsp; 码：<input type="password" placeholder="pwd"
+        /></label>
+        <br />
+        <button id="btn">登录</button>
+
+        <button id="btn1">注册</button>
+      </form>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/login.js"></script>
+  </body>
 </html>

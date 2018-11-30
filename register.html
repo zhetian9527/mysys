@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>注册</title>
+    <style>
+      .register {
+        text-align: center;
+
+        width: 500px;
+        height: 500px;
+        margin: 200px auto;
+      }
+
+      .form {
+        text-align: right;
+        width: 250px;
+        margin: 0 auto;
+      }
+
+      #btn {
+        float: left;
+        margin-left: 85px;
+        margin-top: 10px;
+      }
+
+      #btn1 {
+        margin-right: 5px;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register">
+      <h2>xx后台管理系统</h2>
+      <h3>注册</h3>
+      <div class="form">
+        <label for=""> 用户名：<input type="text" placeholder="name"/></label>
+
+        <br />
+
+        <label for=""
+          >密 &nbsp;&nbsp; 码：<input type="password" placeholder="pwd"
+        /></label>
+
+        <br />
+        <label for=""
+          >昵称：<input
+            type="text"
+            placeholder="昵称"
+            name="nickname"
+            id="nickname"
+        /></label>
+        <br />
+        <label for=""
+          >年龄：<input type="text" placeholder="年龄" name="age" id="age"
+        /></label>
+        <br />
+        <label for=""
+          >性别：<input type="text" placeholder="性别" name="sex" id="sex"
+        /></label>
+        <br />
+        <label for=""
+          >管理员：<input type="radio" name="isAdmin" value="是" /> 是
+          <input type="radio" name="isAdmin" value="否" /> 否</label
+        >
+        <br />
+
+        <button id="btn">注册</button>
+      </div>
+    </div>
+    <script src="js/jquery.js"></script>
+    <script src="js/register.js"></script>
+  </body>
+</html>

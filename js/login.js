@@ -15,30 +15,17 @@ $(function() {
           location.href = "index.html";
           // 用 localStorage
           localStorage.setItem("nickname", res.data.nickname);
+          localStorage.setItem("isAdmin", res.data.isAdmin);
         } else {
           alert(res.msg);
         }
       }
     );
+    return false;
+  });
+
+  $("#btn1").click(function() {
+    location.href = "register.html";
+    return false;
   });
 });
-
-// (function() {
-
-//   var login = {
-//     el: {
-//       loginBtn: null
-//     }, // 放DOM元素   DOM元素缓存
-
-//     init: function() {
-//       this.loginBtn = $('#btn')
-//     }
-//   };
-
-//   $(function () {
-//     btnEl.click
-
-//     btnEl
-//   })
-
-// })()
