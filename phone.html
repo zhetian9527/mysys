@@ -62,10 +62,36 @@
       #scsj span {
         text-align: right;
       }
+      #sj {
+        position: relative;
+        left: -40%;
+      }
 
       img {
         width: 168px;
         height: 168px;
+      }
+      #xgsj{
+        background: white;
+        position: absolute;
+        top: 20%;
+        left: 25%;
+        text-align: center;
+        border: 1px solid black;
+        z-index: -99;
+        opacity: 0;
+      }
+        #xgsj1{
+        display: inline-block;
+        text-align: right;
+      }
+      #xg {
+        position: relative;
+        left: -40%;
+      }
+      #qxsc{
+        position: relative;
+        left: -25%;
       }
     </style>
   </head>
@@ -107,27 +133,73 @@
     </div>
     <div id="sjadd">
       <h2>新增手机</h2>
-      <div id="scsj">
+      <form
+        id="scsj"
+        action="http://127.0.0.1:3000/api/phone/add"
+        method="post"
+        enctype="multipart/form-data"
+      >
         名称：<input type="text" name="name" /><br />
-        品牌<input type="text" name="brand" id="" /><br />
-        官方指导价：<input type="text" name="price" id="" /><br />
-        二手回收价：<input type="text" name="ershouprice" id="" /><br />
-        <input type="file" name="file" id="" />
-      </div>
-      <br />
-      <button>上传</button>
+        品牌:<input type="text" name="brand"  /><br />
+        官方指导价<input type="text" name="price"  /><br />
+        二手回收价<input type="text" name="ershouprice"/><br />
+        <input type="file" name="file"  />
+
+        <br />
+        <button id="sj">上传</button> 
+      </form>
     </div>
+
+<div id="xgsj">
+  <h2>修改手机</h2>
+  <div id="xgsj1" >
+    名称：<input type="text" name="name" id="name" /><br />
+    品牌:<input type="text" name="brand" id="brand" /><br />
+    官方指导价：<input type="text" name="price" id="price" /><br />
+    二手回收价：<input type="text" name="ershouprice" id="ershouprice" /><br />
+ 
+    <br />
+    <button id="xg">修改</button><button id="qxsc">取消</button>
+  </dj>
+</div>
+
+
+
   </body>
 </html>
 <script src="./js/jquery.js"></script>
+<script src="./js/jquery.form.min.js"></script>
 <script>
+   
+  
+
+
+
+
+
+
   $("#add").click(function() {
     $("#sjadd")[0].style.zIndex = 1;
     $("#sjadd")[0].style.opacity = 1;
   });
-  $(".bg").click(function(e) {
+  $(".bg").click(function() {
     $("#sjadd")[0].style.zIndex = -99;
     $("#sjadd")[0].style.opacity = 0;
+     
+  });
+$("#qxsc").click(function(){
+
+     $("#xgsj")[0].style.zIndex = -99;
+    $("#xgsj")[0].style.opacity = 0;
+  })
+  $(document).ready(function() {
+    $("#scsj").ajaxForm(function(data) {
+      location.href = "phone.html";
+    });
+  });
+
+  $("#sj").click(function() {
+    location.href = "phone.html";
   });
   $(function() {
     getbrand();
@@ -152,7 +224,6 @@
         pageSize: pageSize
       },
       function(res) {
-        console.log(res);
         if (res.code == 0) {
           var list = res.data.list;
           var str = "";
@@ -198,9 +269,6 @@
               .children()
               .eq(2)
               .text();
-
-            console.log(username);
-
             $.post(
               "http://127.0.0.1:3000/api/phone/remove",
               {
@@ -213,6 +281,45 @@
               }
             );
           });
+
+          $(".update").click(function() {
+
+            var name= $("#name");
+            var brand=$("#brand");
+            var price=$("#price");
+            var ershouprice=$("#ershouprice")
+            var username = $(this) .parent() .parent().children().eq(2).text();
+            var priceval= $(this).parent().parent().children().eq(4).text();
+            var brandval= $(this).parent().parent().children().eq(3).text();
+            var ershoupriceval= $(this).parent().parent().children().eq(5).text();
+            console.log(username);
+          
+            name.val(username)
+            price.val(priceval)
+            brand.val(brandval)
+            ershouprice.val(ershoupriceval)
+            $("#xgsj")[0].style.zIndex = 1;
+            $("#xgsj")[0].style.opacity = 1;
+             $("#xg").click(function () {
+       
+            $.post(
+                 "http://127.0.0.1:3000/api/phone/update",{
+                   username: username,
+                   name: name.val(),
+                   brand: brand.val(),
+                   price:price.val(),
+                   Secondhandprice: ershouprice.val()
+
+                 }, function (res) { 
+
+                     if (res.code == 0) {
+                      window.location.reload();
+                   }
+                 })
+
+
+            })
+         });
         }
       }
     );

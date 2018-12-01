@@ -23,15 +23,12 @@
 <script src="./js/jquery.js"></script>
 <script src="./js/jquery.form.min.js"></script>
 <script>
-  //   var btn = document.getElementById("btn");
-  //   btn.onclick = function() {
-  //     location.href = "brand.html";
-  //   };
-
   $(document).ready(function() {
     $("#formLogin").ajaxForm(function(data) {
       location.href = "brand.html";
-      //Alert("post success.");
     });
+  });
+  $("#btn").click(function() {
+    location.href = "brand.html";
   });
 </script>

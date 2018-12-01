@@ -69,7 +69,6 @@
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-
             <li>
               <a href="" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -85,12 +84,10 @@
 <script>
   $(function() {
     getbrand();
-
     $("#add").click(function() {
       location.href = "add.html";
     });
   });
-
   function getbrand(page, pageSize) {
     if (location.search) {
       page1 = location.search
@@ -102,7 +99,6 @@
     }
     page = page || page1;
     pageSize = pageSize || 5;
-
     $.get(
       "http://127.0.0.1:3000/api/brand/list",
       {
@@ -134,7 +130,6 @@
               (i + 1) +
               "</a></li>";
           }
-
           $(".page li:eq(0)").after(str1);
           $(".page1").click(function() {
             var page = location.search
@@ -150,9 +145,6 @@
               .children()
               .eq(2)
               .text();
-
-            console.log(username);
-
             $.post(
               "http://127.0.0.1:3000/api/brand/remove",
               {

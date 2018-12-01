@@ -524,4 +524,84 @@ app.post("/api/phone/remove", function(req, res) {
     }
   );
 });
+//新增手机
+app.post("/api/phone/add", upload.single("file"), function(req, res) {
+  var name = req.body.name;
+  var brand = req.body.brand;
+  var price = req.body.price;
+  var Secondhandprice = req.body.ershouprice;
+  var FileName = new Date().getTime() + req.file.originalname;
+  var newFileName = path.resolve(__dirname, "./images/", FileName);
+
+  try {
+    fs.renameSync(req.file.path, newFileName);
+
+    MongoClient.connect(
+      url,
+      { useNewUrlParser: true },
+      function(err, client) {
+        if (err) {
+          return;
+        }
+
+        var db = client.db("project");
+
+        db.collection("phone").insertOne({
+          src: newFileName,
+          name: name,
+          brand: brand,
+          price: price,
+          Secondhandprice: Secondhandprice
+        });
+
+        client.close();
+      }
+    );
+  } catch (error) {
+    if (error) {
+      console.log("上传失败");
+    } else {
+      console.log("上传成功");
+    }
+  }
+});
+//修改文件
+app.post("/api/phone/update", function(req, res) {
+  var name = req.body.name;
+  var price = req.body.price;
+  var brand = req.body.brand;
+  var username = req.body.username;
+  var Secondhandprice = req.body.Secondhandprice;
+  console.log(req.body);
+  var results = {};
+  MongoClient.connect(
+    url,
+    {
+      useNewUrlParser: true
+    },
+    function(err, client) {
+      if (err) {
+        return;
+      }
+      var db = client.db("project");
+
+      db.collection("phone").updateOne(
+        { name: username },
+        {
+          $set: {
+            name: name,
+            price: price,
+            brand: brand,
+            Secondhandprice: Secondhandprice
+          }
+        }
+      );
+      results.code = 0;
+      results.msg = "修改成功";
+      client.close();
+      res.json(results);
+    }
+  );
+});
+
 app.listen(3000);
